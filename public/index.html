@@ -1,43 +1,50 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IRL Stream</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             background-color: #343a40;
             color: #ffffff;
         }
+
         #chat {
-            height: calc(100% - 60px); /* Subtracting the header height */
+            height: calc(100% - 60px);
+            /* Subtracting the header height */
             overflow-y: scroll;
             border: none;
             padding: 10px;
             background-color: #232323;
         }
+
         .chat-badge {
             height: 20px;
             vertical-align: middle;
             margin-right: 5px;
         }
+
         header {
             padding: 15px;
             text-align: center;
             background-color: #232323;
             border-bottom: 1px solid #444;
         }
-.subscription-message {
-    background-color: #f2ae49;
-    padding: 5px;
-    margin: 5px 0;
-    border-radius: 5px;
-}
 
+        .subscription-message {
+            background-color: #f2ae49;
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
     </style>
 </head>
+
 <body class="d-flex flex-column">
     <header>
         <h2>IRL Stream Chat</h2>
@@ -53,28 +60,27 @@
             '#faister': 'https://static-cdn.jtvnw.net/badges/v1/1663b795-c9cb-49ae-b361-3aa700f79466/1',
             '#nooreax': 'https://static-cdn.jtvnw.net/badges/v1/0500c152-b4dd-4499-a60d-c9724250141e/1',
         };
+        let defaultChannelBadge = "https://www.colorcombos.com/images/colors/FFFFFF.png"
+
+        let defaultColors = [
+            '#FF0000', '#008000', '#FF7F50',
+            '#9ACD32', '#FF4500', '#2E8B57', '#DAA520', '#D2691E',
+            '#5F9EA0', '#1E90FF', '#FF69B4', '#8A2BE2', '#00FF7F'
+        ]
 
         function stringToColor(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = str.charCodeAt(i) + ((hash << 5) - hash);
-            }
-            let color = '#';
-            for (let i = 0; i < 3; i++) {
-                const value = (hash >> (i * 8)) & 0xFF;
-                color += ('00' + value.toString(16)).substr(-2);
-            }
-            return color;
+            return defaultColors[str.charCodeAt(0)*str.charCodeAt(0) % defaultColors.length]
         }
-        
+
         socket.on('chatMessage', ({ channel, user, message, type }) => {
             const chatDiv = document.getElementById('chat');
             const isSubscription = type === 'subscription';
             const messageClass = isSubscription ? 'subscription-message' : '';
             const userColor = stringToColor(user);
-            chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel]}" class="chat-badge"> <strong><span style="color:white">[${channel}]</span> <span style="color:${userColor}">${user}:</span></strong> ${message}</div>`;
+            chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel] || defaultChannelBadge}" class="chat-badge"> <strong><span style="color:white">[${channel}]</span> <span style="color:${userColor}">${user}:</span></strong> ${message}</div>`;
             chatDiv.scrollTop = chatDiv.scrollHeight;
         });
-</script>
+    </script>
 </body>
+
 </html>
