@@ -53,6 +53,7 @@
             '#faister': 'https://static-cdn.jtvnw.net/badges/v1/1663b795-c9cb-49ae-b361-3aa700f79466/1',
             '#nooreax': 'https://static-cdn.jtvnw.net/badges/v1/0500c152-b4dd-4499-a60d-c9724250141e/1',
         };
+        let defaultChannelBadge = "https://www.colorcombos.com/images/colors/FFFFFF.png"
 
         function stringToColor(str) {
             let hash = 0;
@@ -72,7 +73,7 @@
             const isSubscription = type === 'subscription';
             const messageClass = isSubscription ? 'subscription-message' : '';
             const userColor = stringToColor(user);
-            chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel]}" class="chat-badge"> <strong><span style="color:white">[${channel}]</span> <span style="color:${userColor}">${user}:</span></strong> ${message}</div>`;
+            chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel] || defaultChannelBadge}" class="chat-badge"> <strong><span style="color:white">[${channel}]</span> <span style="color:${userColor}">${user}:</span></strong> ${message}</div>`;
             chatDiv.scrollTop = chatDiv.scrollHeight;
         });
 </script>
