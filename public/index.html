@@ -54,13 +54,26 @@
             '#nooreax': 'https://static-cdn.jtvnw.net/badges/v1/0500c152-b4dd-4499-a60d-c9724250141e/1',
         };
 
-socket.on('chatMessage', ({ channel, user, message, type }) => {
-    const chatDiv = document.getElementById('chat');
-    const isSubscription = type === 'subscription';
-    const messageClass = isSubscription ? 'subscription-message' : '';
-    chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel]}" class="chat-badge"> <strong>[${channel}] ${user}:</strong> ${message}</div>`;
-    chatDiv.scrollTop = chatDiv.scrollHeight;
-});
-    </script>
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            let color = '#';
+            for (let i = 0; i < 3; i++) {
+                const value = (hash >> (i * 8)) & 0xFF;
+                color += ('00' + value.toString(16)).substr(-2);
+            }
+            return color;
+        }
+        
+        socket.on('chatMessage', ({ channel, user, message, type }) => {
+            const chatDiv = document.getElementById('chat');
+            const isSubscription = type === 'subscription';
+            const messageClass = isSubscription ? 'subscription-message' : '';
+            const userColor = stringToColor(user);
+            chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel]}" class="chat-badge"> <strong style="color:${userColor}">[${channel}] ${user}:</strong> ${mes>    chatDiv.scrollTop = chatDiv.scrollHeight;
+        });
+</script>
 </body>
 </html>
