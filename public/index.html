@@ -72,7 +72,8 @@
             const isSubscription = type === 'subscription';
             const messageClass = isSubscription ? 'subscription-message' : '';
             const userColor = stringToColor(user);
-            chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel]}" class="chat-badge"> <strong style="color:${userColor}">[${channel}] ${user}:</strong> ${mes>    chatDiv.scrollTop = chatDiv.scrollHeight;
+            chatDiv.innerHTML += `<div class="${messageClass}"><img src="${channelBadges[channel]}" class="chat-badge"> <strong><span style="color:white">[${channel}]</span> <span style="color:${userColor}">${user}:</span></strong> ${message}</div>`;
+            chatDiv.scrollTop = chatDiv.scrollHeight;
         });
 </script>
 </body>
